@@ -12,9 +12,6 @@
 <transition mode="out-in" appear name="down">
 <div class="image-ball"></div>
 </transition>
-<!--<transition mode="out-in" appear name="down-slow">
-<div class="small-ball"></div>
-</transition>-->
 <transition mode="out-in" appear name="up">
 <img src="../assets/me.png" class="me-image"/>
 </transition>
@@ -24,11 +21,13 @@
 <span class="job-title">Software Engineer</span>
 <span class="under-name">Computer Science student with industry experience and a passion for writing good code</span>
 <div class="contact-info">
-<a href="https://linkedin.com/in/joshbtay" target="_blank" class="link"><img src="../assets/linkedin.svg" class="contact-icon"/>linkedin<img src="../assets/upright.svg" class="popup"/></a>
-<a href="https://github.com/joshbtay" target="_blank" class="link"><img src="../assets/github.svg" class="contact-icon"/>github<img src="../assets/upright.svg" class="popup"/></a>
-<a href="mailto: joshbtay@gmail.com" target="_blank" class="link"><img src="../assets/contact.svg" class="contact-icon"/>joshbtay@gmail.com<img src="../assets/upright.svg" class="popup"/></a>
-<a href="tel:208-570-5158" target="_blank" class="link"><img src="../assets/phone.svg" class="contact-icon"/>208-570-5158<img src="../assets/upright.svg" class="popup"/></a>
+<template v-for="link in populatedLinks" :key="link.name">
+<transition appear>
+<a :href=link.url target="_blank" class="link"><img :src=link.image class="contact-icon"/><span>{{ link.name }}</span><img src="../assets/upright.svg" class="popup"/></a>
+</transition>
+</template>
 </div>
+<div style="height:150px"/>
 </div>
 </div>
 <div v-else-if="context==='about'" class="about">
@@ -75,10 +74,13 @@ export default {
   name: 'ContentPage',
   props: {
   },
+  mounted () {
+   this.loadLinks();
+  },
   data () {
    let context = 'home';
    const timer = ms => new Promise(res => setTimeout(res, ms));
-
+   
    return {
     context,
     timer,
@@ -88,7 +90,6 @@ export default {
 "C++",
 "JavaScript",
 "TypeScript",
-"Node.js",
 "HTML",
 "CSS",
 "Scala",
@@ -98,6 +99,8 @@ export default {
 "Angular",
 "Flutter",
 "AWS",
+"Linux",
+"Git",
 ],
    populatedSkills: [],
    projects: [
@@ -137,6 +140,34 @@ export default {
    
    ],
    populatedProjects: [],
+   links: [
+   {
+    name: "linkedin",
+    url: "https://linkedin.com/in/joshbtay",
+    image: "linkedin.svg"
+   },
+   {
+    name: "github",
+    url: "https://github.com/joshbtay",
+    image: "github.svg"
+   },
+   {
+    name: "joshbtay@gmail.com",
+    url: "mailto: joshbtay@gmail.com",
+    image: "contact.svg"
+   },
+   {
+    name: "208-570-5158",
+    url: "tel:208-570-5158",
+    image: "phone.svg"
+   },
+   {
+    name: "resume",
+    url: "Josh_Taylor_resume.pdf",
+    image: "download.svg"
+   }
+   ],
+   populatedLinks: [],
    }
   }, 
   methods: {
@@ -147,6 +178,9 @@ export default {
     }
     else if (this.context == "portfolio"){
      this.loadPortfolio();
+    }
+    else if (this.context == "home"){
+     this.loadLinks();
     }
    },
    async loadSkills() {
@@ -165,6 +199,14 @@ export default {
      await this.timer(250);
     }
    },
+   async loadLinks() {
+    this.populatedLinks = [];
+    await this.timer(500);
+    for (var i = 0; i < this.links.length; i++){
+     this.populatedLinks.push(this.links[i]);
+     await this.timer(200);
+    }
+   }
   },
 }
 </script>
@@ -212,14 +254,14 @@ export default {
  border-radius: 100%;
 }
 .small-ball{
- width: 80px;
- height: 80px;
+ width: 180px;
+ height: 180px;
  clear: both;
  position: absolute;
  background: rgb(68,87,227);
  background: linear-gradient(0deg, rgba(68,87,227,1) 0%, rgba(147,238,255,1) 100%);
  z-index: 0;
- right: 30px;
+ right: -130px;
  border-radius: 100%;
 }
 
@@ -255,8 +297,10 @@ export default {
  margin-top: 40px;
  display: flex;
  justify-content: space-between;
+ align-items: flex-start;
  flex-direction: column;
  width: 100%;
+ max-height:0;
 }
 
 .bold{
@@ -492,6 +536,11 @@ export default {
  .left-bar{
   height: 95vh;
  }
+}
+
+@media (min-width: 2500px) and (min-height: 1500px) {
+ .about{ margin-top: 17%;}
+ .portfolio{ margin-top: 17%;}
 }
 
 @media (max-width: 950px) {
