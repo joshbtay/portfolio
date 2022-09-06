@@ -1,5 +1,7 @@
 # joshbtay
 
+website is deployed [here](https://joshbtay.com)
+
 ## Project setup
 ```
 npm install
