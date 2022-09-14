@@ -31,14 +31,18 @@
 </div>
 </div>
 <div v-else-if="context==='about'" class="about">
+<div class="profile-container">
 <img src="../assets/profile.jpg" class="profile-image"/>
-<transition mode="out-in" appear name="up">
+</div>
 <div class="about-info">
+<transition mode="out-in" appear name="up">
 <div class="about-left">
 <span class="about-title"><span>Josh Taylor</span><span></span><span>Software Engineer</span></span>
 <span class="about-blurb">&emsp;&emsp;Hello, I am currently studying Computer Science at <a href="https://cs.byu.edu/" target="_blank">BYU</a>. Last summer, I interned as a Software Engineer at <a href="https://lucid.co/about" target="_blank">Lucid Software</a>. Before that, I worked as a Programming Instructor at <a href="https://junilearning.com/reviews/" target="_blank">Juni Learning</a>. I have also worked as a Software Developer and Linux System Admin for the BYU Electrical Engineering Department. Right now, I am President of the <a href="https://cpc.byu.edu" target="_blank">Competitive Programming Club</a> at BYU. I am also doing A.I. research for Dr. Jacob Crandall. Nice to meet you!</span>
 <a href="../Josh_Taylor_resume.pdf" target="_blank" class="download-button"><img src="../assets/download.svg" class="download"/><span>Resume</span></a>
 </div>
+</transition>
+<transition appear name="up">
 <div class="about-right">
 <span style="margin-left: 3px" class="bold">Skills</span>
 <div class="about-right-child">
@@ -49,8 +53,8 @@
 </template>
 </div>
 </div>
-</div>
 </transition>
+</div>
 </div>
 <div v-else-if="context==='portfolio'" class="portfolio">
 <template v-for="project in populatedProjects" :key=project.caption>
@@ -108,34 +112,40 @@ export default {
     caption: "Reversi AI",
     url: "https://github.com/joshbtay/Reversi-AI",
     image: "reversi.gif",
-    text: "Used alpha-beta pruning to make an algorithm that won the class tournament",
+    text: "Alpha-beta algorithm that won the class tournament",
    },
    {
     caption: "Music Generator",
     url: "https://soundcloud.com/joshbtay/sets/transformer-results",
     image: "music.png",
-    text: "Created a deep neural network architecture to generate songs",
+    text: "Deep neural network architecture that generates songs",
    },
    {
     caption: "Family Map",
     url: "https://github.com/joshbtay/family-map",
     image: "family.png",
-    text: "Built a full-stack Android app for users to view their family history on a map",
+    text: "Full-stack Android app for users to view their family history on a map",
 
    },
    {
     caption: "Sour Chat",
     url: "https://github.com/joshbtay/sour-chat",
     image: "sour.png",
-    text: "Wrote web app for users to draw with friends on the same canvas in real-time",
+    text: "Web app using websockets for users to draw with friends on the same canvas in real-time",
 
    },
    {
     caption: "ASCII Converter",
     url: "https://github.com/joshbtay/ascii-converter",
     image: "ascii.png",
-    text: "Created a tool to generate ascii text from an image",
+    text: "Image rendering tool that converts image data to ascii text",
 
+   },
+   {
+    caption: "Tweeter",
+    url: "https://github.com/joshbtay/tweeter",
+    image: "tweeter.png",
+    text: "Twitter clone built with Java and AWS"
    },
    
    ],
