@@ -1,13 +1,9 @@
 <template class="Site">
 <div class="midline">
-<div class="left-bar">
-<span class="bullet nav" :class="{ active : context === 'home' }" @click="setContent('home')"><img src="../assets/home.svg" class="nav-logo"/>Home</span>
-<span class="bullet nav" :class="{ active : context === 'about' }" @click="setContent('about')"><img src="../assets/about.svg" class="nav-logo"/>About</span>
-<span class="bullet nav" :class="{ active : context === 'portfolio' }" @click="setContent('portfolio')"><img src="../assets/portfolio.svg" class="nav-logo"/>Projects</span>
-</div>
 <div class="right-content">
 <transition mode="out-in" appear>
-<div v-if="context==='home'" class="swapper">
+<div class="middle">
+<div class="swapper">
 <div class="image-group">
 <transition mode="out-in" appear name="down">
 <div class="image-ball"></div>
@@ -19,7 +15,6 @@
 <div class="bio">
 <span class="big-name">JOSH TAYLOR</span>
 <span class="job-title">Software Engineer</span>
-<span class="under-name">Computer Science student with industry experience and a passion for writing good code</span>
 <div class="contact-info">
 <template v-for="link in populatedLinks" :key="link.name">
 <transition appear>
@@ -30,16 +25,12 @@
 <div style="height:150px"/>
 </div>
 </div>
-<div v-else-if="context==='about'" class="about">
-<div class="profile-container">
-<img src="../assets/profile.jpg" class="profile-image"/>
-</div>
+<div class="about">
 <div class="about-info">
 <transition mode="out-in" appear name="up">
 <div class="about-left">
-<span class="about-title"><span>Josh Taylor</span><span></span><span>Software Engineer</span></span>
-<span class="about-blurb">&emsp;&emsp;Hello, I am currently studying Computer Science at <a href="https://cs.byu.edu/" target="_blank">BYU</a>. Last summer, I interned as a Software Engineer at <a href="https://lucid.co/about" target="_blank">Lucid Software</a>. Before that, I worked as a Programming Instructor at <a href="https://junilearning.com/reviews/" target="_blank">Juni Learning</a>. I have also worked as a Software Developer and Linux System Admin for the BYU Electrical Engineering Department. Right now, I am President of the <a href="https://cpc.byu.edu" target="_blank">Competitive Programming Club</a> at BYU. I am also doing A.I. research for Dr. Jacob Crandall. Nice to meet you!</span>
-<a href="../Josh_Taylor_resume.pdf" target="_blank" class="download-button"><img src="../assets/download.svg" class="download"/><span>Resume</span></a>
+<span class="about-blurb">&emsp;&emsp;Hello, I'm Josh Taylor, a software engineer. As an intern at Roblox, I batched DynamoDB writes using Kafka and Flink, saving over $100,000 a month. I also implemented client retries, reducing client-side errors by 90%. During my internship at Lucid Software, I developed ownership transfer features using Angular and Scala, saving 300 hours of work, and improved webpage load time by 93% through optimized TypeScript. Thanks for stopping by!
+</span>
 </div>
 </transition>
 <transition appear name="up">
@@ -56,7 +47,7 @@
 </transition>
 </div>
 </div>
-<div v-else-if="context==='portfolio'" class="portfolio">
+<div class="portfolio">
 <template v-for="project in populatedProjects" :key=project.caption>
 <transition appear name="up">
 <a class="image-with-caption" target="_blank" :href=project.url>
@@ -66,6 +57,7 @@
 </a>
 </transition>
 </template>
+</div>
 </div>
 </transition>
 </div>
@@ -80,6 +72,8 @@ export default {
   },
   mounted () {
    this.loadLinks();
+   this.loadPortfolio();
+    this.loadSkills();
   },
   data () {
    let context = 'home';
@@ -89,25 +83,40 @@ export default {
     context,
     timer,
     skills: [
+"C",
+"C++",
+"C#",
 "Python",
 "Java",
-"C++",
 "JavaScript",
 "TypeScript",
+"Dart",
 "HTML",
 "CSS",
 "Scala",
 "SQL",
 "Bash",
+"Node.js",
 "Vue",
 "Angular",
+"React",
 "Flutter",
 "AWS",
 "Linux",
 "Git",
+"Firebase",
+"PyTorch",
+"Agile/Scrum",
+"CI/CD",
 ],
    populatedSkills: [],
    projects: [
+   {
+    caption: "Competitive Programming Leaderboard",
+    url: "https://kattis-leaderboard.web.app",
+    image: "leaderboard.png",
+    text: "Leaderboard to track BYU students' progress practicing for Competitive Programming"
+   },
    {
     caption: "Reversi AI",
     url: "https://github.com/joshbtay/Reversi-AI",
@@ -181,18 +190,6 @@ export default {
    }
   }, 
   methods: {
-   setContent (context) {
-    this.context = context;
-    if (this.context == "about"){
-     this.loadSkills()
-    }
-    else if (this.context == "portfolio"){
-     this.loadPortfolio();
-    }
-    else if (this.context == "home"){
-     this.loadLinks();
-    }
-   },
    async loadSkills() {
     this.populatedSkills=[];
     await this.timer(700);
@@ -227,6 +224,7 @@ export default {
  width: 100%;
  background-color: #ffffff;
  flex: 1;
+ justify-content: center;
 }
 .bullet {
  letter-spacing: 1px;
@@ -350,7 +348,11 @@ export default {
 }
 .link:hover {
  opacity: 0.8;
- transform: scale(1.01);
+}
+
+.middle{
+  text-align: center;
+
 }
 
 .bio {
@@ -362,6 +364,7 @@ export default {
 }
 
 .swapper {
+ margin-top: 150px;
  display: flex;
  justify-content: center;
  align-items: center;
@@ -373,14 +376,9 @@ export default {
  letter-spacing: 3px;
 }
 
-.left-bar{
- display: flex;
- width: 400px;
- flex-direction: column;
- justify-content: center;
-}
 .right-content{
- width: 100%;
+ width: min(90vw, 1400px);
+ margin: auto;
 }
 
 .title{
@@ -395,8 +393,8 @@ export default {
 
 .about {
  display: flex;
- margin: 100px 70px;
  flex-direction: column;
+ margin: 5vw;
  align-items: center;
 }
 
@@ -542,11 +540,6 @@ export default {
  transform: scale(1.02);
 }
 
-@media (min-width: 950px) {
- .left-bar{
-  height: 95vh;
- }
-}
 
 @media (min-width: 2500px) and (min-height: 1500px) {
  .about{ margin-top: 17%;}
@@ -556,14 +549,6 @@ export default {
 @media (max-width: 950px) {
  .midline{
   flex-direction: column;
- }
- .left-bar{
-  flex-direction: row;
-  flex-grow: 0;
-  justify-content: space-evenly;
-  width: 100%;
-  align-items: center;
-  margin-bottom: 80px;
  }
  .nav{
   text-align: center;
@@ -575,6 +560,7 @@ export default {
  }
  .swapper {
   flex-direction: column;
+  margin-top:50px;
  }
  .me-image{
   max-width: 300px;
